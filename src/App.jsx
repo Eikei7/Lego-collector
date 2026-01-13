@@ -6,6 +6,7 @@ function App() {
   const [searchQuery, setSearchQuery] = useState('');
   const [searchResults, setSearchResults] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [hasSearched, setHasSearched] = useState(false);
 
   const API_KEY = import.meta.env.VITE_REBRICKABLE_API_KEY;
 
@@ -29,6 +30,7 @@ function App() {
     if (!searchQuery) return;
 
     setIsLoading(true);
+    setHasSearched(true);
     try {
       const response = await fetch(
         `https://rebrickable.com/api/v3/lego/sets/?search=${searchQuery}&key=${API_KEY}`
@@ -96,7 +98,7 @@ function App() {
   return (
     <div className="container">
       <header>
-        <h1>🧱 LEGO® Collector</h1>
+        <h1>LEGO® Collector</h1>
         <p>Manage your collection locally in your browser.</p>
       </header>
 
@@ -149,7 +151,7 @@ function App() {
       </div>
     )
   )}
-  {!isLoading && searchQuery && searchResults.length === 0 && (
+  {!isLoading && hasSearched && searchResults.length === 0 && (
   <p style={{ textAlign: 'center', marginTop: '20px' }}>No results found for "{searchQuery}".</p>
 )}
 </section>
