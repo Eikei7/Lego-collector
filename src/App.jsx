@@ -106,7 +106,7 @@ function App() {
     };
     reader.readAsText(file);
   };
-
+  const totalParts = collection.reduce((acc, set) => acc + (set.num_parts || 0), 0);
 
   // --- RENDER ---
   return (
@@ -153,22 +153,30 @@ function App() {
       </div>
     )
   )}
+  {!isLoading && searchQuery && searchResults.length === 0 && (
+  <p style={{ textAlign: 'center', marginTop: '20px' }}>Inga resultat hittades för "{searchQuery}".</p>
+)}
 </section>
 
       <hr />
 
       {/* SAMLINGS-SEKTION */}
       <section className="collection-section">
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-          <h2>Min Samling ({collection.length})</h2>
-          <div className="data-actions">
-            <button onClick={exportJSON} className="secondary-btn">Exportera JSON</button>
-            <label className="file-upload">
-              Importera JSON
-              <input type="file" accept=".json" onChange={importJSON} hidden />
-            </label>
-          </div>
-        </div>
+  <div className="collection-header">
+    <div>
+      <h2>Min Samling ({collection.length})</h2>
+      <p className="total-stats">
+        Totalt: <strong>{totalParts.toLocaleString()}</strong> bitar
+      </p>
+    </div>
+    <div className="data-actions">
+      <button onClick={exportJSON} className="secondary-btn">Exportera JSON</button>
+      <label className="file-upload">
+        Importera JSON
+        <input type="file" accept=".json" onChange={importJSON} hidden />
+      </label>
+    </div>
+  </div>
 
         {collection.length === 0 ? (
           <p style={{ textAlign: 'center', color: '#666', marginTop: '40px' }}>

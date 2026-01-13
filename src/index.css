@@ -1,10 +1,8 @@
-/* --- Globala Inställningar & Reset --- */
 :root {
   font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
   line-height: 1.5;
   font-weight: 400;
 
-  /* Färgvariabler för enkel ändring */
   --lego-blue: #0055ad;
   --lego-blue-hover: #003d7a;
   --lego-red: #d32f2f;
@@ -33,7 +31,6 @@ h1 {
   margin-bottom: 0.5rem;
 }
 
-/* --- Knappar & Input --- */
 button {
   padding: 10px 20px;
   background-color: var(--lego-blue);
@@ -73,7 +70,6 @@ input[type="text"]:focus {
   border-color: var(--lego-blue);
 }
 
-/* --- Layoutsektioner --- */
 .search-section {
   background: var(--card-bg);
   padding: 25px;
@@ -94,7 +90,6 @@ input[type="text"]:focus {
   align-items: center;
 }
 
-/* --- LEGO Grid & Kort --- */
 .lego-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
@@ -146,7 +141,6 @@ input[type="text"]:focus {
   color: #666;
 }
 
-/* --- Hjälpklasser & Specialknappar --- */
 .secondary-btn {
   background-color: #6c757d;
 }
@@ -174,7 +168,6 @@ footer {
   color: #888;
 }
 
-/* Responsivitet för mobilen */
 @media (max-width: 600px) {
   .input-group {
     flex-direction: column;
@@ -186,7 +179,6 @@ footer {
   }
 }
 
-/* --- Loading Spinner --- */
 .spinner-container {
   display: flex;
   flex-direction: column;
@@ -214,5 +206,26 @@ footer {
 .loading-text {
   margin-top: 15px;
   font-weight: bold;
+  color: var(--lego-blue);
+}
+
+.collection-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 20px;
+}
+
+.total-stats {
+  margin: 0;
+  color: #666;
+  font-size: 1.1rem;
+  background: #eee;
+  padding: 4px 12px;
+  border-radius: 20px;
+  display: inline-block;
+}
+
+.total-stats strong {
   color: var(--lego-blue);
 }
