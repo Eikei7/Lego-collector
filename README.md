@@ -23,7 +23,7 @@ A modern web application for managing your LEGO collection. Search through Rebri
 
 1. Clone the repository:
 ```bash
-git clone https://github.com/your-username/lego-collector.git
+git clone https://github.com/Eikei7/lego-collector.git
 cd lego-collector
 ```
 
