@@ -1,8 +1,8 @@
-# 🧱 LEGO® Collector
+# LEGO® Collector
 
 A modern web application for managing your LEGO collection. Search through Rebrickable's extensive database and keep track of all your sets locally in your browser.
 
-## ✨ Features
+## Features
 
 - **Search Rebrickable Database** - Find LEGO sets by searching for names or set numbers
 - **Save Your Collection** - All data is stored locally in your browser using localStorage
@@ -11,7 +11,7 @@ A modern web application for managing your LEGO collection. Search through Rebri
 - **Statistics** - See total number of sets and pieces in your collection
 - **Export/Import** - Backup or share your collection as a JSON file
 
-## 🚀 Getting Started
+## Getting Started
 
 ### Prerequisites
 
@@ -44,7 +44,7 @@ npm run dev
 
 5. Open [http://localhost:5173](http://localhost:5173) in your browser
 
-## 🏗️ Build for Production
+## Build for Production
 
 ```bash
 npm run build
@@ -52,7 +52,7 @@ npm run build
 
 This creates an optimized production build in the `dist` folder.
 
-## 🌐 Deploy to Netlify
+## Deploy to Netlify
 
 The project is ready for deployment on Netlify:
 
@@ -63,7 +63,7 @@ The project is ready for deployment on Netlify:
 
 Every push to the main branch will automatically deploy the new version on Netlify.
 
-## 🛠️ Tech Stack
+## Tech Stack
 
 - **React** - UI library
 - **Vite** - Build tool and dev server
@@ -71,7 +71,7 @@ Every push to the main branch will automatically deploy the new version on Netli
 - **localStorage** - Local data storage
 - **CSS** - Styling
 
-## 📝 Usage
+## Usage
 
 1. **Search for Sets** - Enter a set number (e.g., 10265) or name in the search field
 2. **Add to Collection** - Click "+ Add" to save a set
@@ -80,11 +80,7 @@ Every push to the main branch will automatically deploy the new version on Netli
 5. **Export Data** - Save your collection as JSON for backup
 6. **Import Data** - Restore your collection from a JSON file
 
-## 📄 License
-
-This project is licensed under the MIT License.
-
-## 🙏 Acknowledgments
+## Acknowledgments
 
 - Data provided by [Rebrickable API](https://rebrickable.com/api/)
 - LEGO® is a registered trademark of the LEGO Group
