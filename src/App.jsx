@@ -7,6 +7,8 @@ function App() {
   const [searchResults, setSearchResults] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [hasSearched, setHasSearched] = useState(false);
+  const [selectedTheme, setSelectedTheme] = useState(null);
+  const [themeNames, setThemeNames] = useState({});
 
   const API_KEY = import.meta.env.VITE_REBRICKABLE_API_KEY;
 
@@ -23,6 +25,23 @@ function App() {
 
   useEffect(() => {
     localStorage.setItem('lego-collection', JSON.stringify(collection));
+    
+    const uniqueThemeIds = [...new Set(collection.map(set => set.theme_id))];
+    const missingThemeIds = uniqueThemeIds.filter(id => !themeNames[id]);
+    
+    if (missingThemeIds.length > 0) {
+      missingThemeIds.forEach(async (themeId) => {
+        try {
+          const response = await fetch(
+            `https://rebrickable.com/api/v3/lego/themes/${themeId}/?key=${API_KEY}`
+          );
+          const data = await response.json();
+          setThemeNames(prev => ({ ...prev, [themeId]: data.name }));
+        } catch (error) {
+          console.error(`Could not fetch theme ${themeId}`, error);
+        }
+      });
+    }
   }, [collection]);
 
   const handleSearch = async (e) => {
@@ -95,10 +114,22 @@ function App() {
   
   const totalParts = collection.reduce((acc, set) => acc + (set.num_parts || 0), 0);
 
+  const themes = [...new Set(collection.map(set => set.theme_id))].sort((a, b) => a - b);
+  
+  const getThemeName = (themeId) => {
+    return themeNames[themeId] || `Theme ${themeId}`;
+  };
+
+  const filteredCollection = selectedTheme 
+    ? collection.filter(set => set.theme_id === selectedTheme)
+    : collection;
+
+  const filteredTotalParts = filteredCollection.reduce((acc, set) => acc + (set.num_parts || 0), 0);
+
   return (
     <div className="container">
       <header>
-        <h1>LEGO® Collector</h1>
+        <h1>🧱 LEGO® Collector</h1>
         <p>Manage your collection locally in your browser.</p>
       </header>
 
@@ -161,10 +192,48 @@ function App() {
       <section className="collection-section">
   <div className="collection-header">
     <div>
-      <h2>My Collection ({collection.length})</h2>
+      <h2>My Collection ({filteredCollection.length}{selectedTheme ? ` of ${collection.length}` : ''})</h2>
       <p className="total-stats">
-        Total: <strong>{totalParts.toLocaleString()}</strong> pieces
+        Total: <strong>{filteredTotalParts.toLocaleString()}</strong> pieces
+        {selectedTheme && ` (${totalParts.toLocaleString()} total)`}
       </p>
+      {themes.length > 0 && (
+        <div style={{ marginTop: '10px', display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
+          <button
+            onClick={() => setSelectedTheme(null)}
+            style={{
+              padding: '6px 12px',
+              fontSize: '14px',
+              borderRadius: '4px',
+              border: selectedTheme === null ? '2px solid #007bff' : '1px solid #ddd',
+              backgroundColor: selectedTheme === null ? '#007bff' : 'white',
+              color: selectedTheme === null ? 'white' : '#333',
+              cursor: 'pointer',
+              fontWeight: selectedTheme === null ? 'bold' : 'normal'
+            }}
+          >
+            All Themes
+          </button>
+          {themes.map(themeId => (
+            <button
+              key={themeId}
+              onClick={() => setSelectedTheme(themeId)}
+              style={{
+                padding: '6px 12px',
+                fontSize: '14px',
+                borderRadius: '4px',
+                border: selectedTheme === themeId ? '2px solid #007bff' : '1px solid #ddd',
+                backgroundColor: selectedTheme === themeId ? '#007bff' : 'white',
+                color: selectedTheme === themeId ? 'white' : '#333',
+                cursor: 'pointer',
+                fontWeight: selectedTheme === themeId ? 'bold' : 'normal'
+              }}
+            >
+              {getThemeName(themeId)} ({collection.filter(s => s.theme_id === themeId).length})
+            </button>
+          ))}
+        </div>
+      )}
     </div>
     <div className="data-actions">
       <button onClick={exportJSON} className="secondary-btn">Export JSON</button>
@@ -175,13 +244,13 @@ function App() {
     </div>
   </div>
 
-        {collection.length === 0 ? (
+        {filteredCollection.length === 0 ? (
           <p style={{ textAlign: 'center', color: '#666', marginTop: '40px' }}>
-            Your collection is empty. Search above to add your first sets!
+            {selectedTheme ? 'No sets found in this theme.' : 'Your collection is empty. Search above to add your first sets!'}
           </p>
         ) : (
           <div className="lego-grid">
-            {collection.map(set => (
+            {filteredCollection.map(set => (
               <div key={set.set_num} className="lego-card saved">
                 <img src={set.set_img_url} alt={set.name} />
                 <div className="card-info">
