@@ -358,6 +358,7 @@ footer {
 .tab-count {
   font-size: 0.8rem;
   margin-left: 5px;
+  margin-right: 15px;
   opacity: 0.8;
 }
 
