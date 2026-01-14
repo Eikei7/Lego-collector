@@ -89,7 +89,8 @@ input[type="text"]:focus {
 .data-actions {
   display: flex;
   gap: 10px;
-  align-items: center;
+  /* align-items: center; */
+  min-width: 200px;
 }
 
 .lego-grid {

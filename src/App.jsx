@@ -129,7 +129,7 @@ function App() {
   return (
     <div className="container">
       <header>
-        <h1>🧱 LEGO® Collector</h1>
+        <h1>LEGO® Collector</h1>
         <p>Manage your collection locally in your browser.</p>
       </header>
 
@@ -271,7 +271,8 @@ function App() {
       </section>
 
       <footer>
-        <p><small>Data provided by Rebrickable API</small></p>
+        <p><small>Data provided by <a href="https://rebrickable.com/api/" target="_blank" rel="noopener noreferrer">Rebrickable API</a></small></p>
+        <p><small>Made by <a href="https://frontend-erik.netlify.app" target="_blank" rel="noopener noreferrer">Erik Karlsson</a></small></p>
       </footer>
     </div>
   );
