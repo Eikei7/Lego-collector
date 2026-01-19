@@ -558,8 +558,6 @@ input[type="text"]:focus {
   transform: scale(0.95);
 }
 
-/* --- Media Queries --- */
-
 @media (max-width: 480px) {
   .container {
     padding: 15px 10px;

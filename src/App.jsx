@@ -352,7 +352,7 @@ function App() {
 
       <footer>
         <p><small>Data provided by <a href="https://rebrickable.com/api/" target="_blank" rel="noopener noreferrer">Rebrickable API</a></small></p>
-        <p><small>Made by <a href="https://frontend-erik.netlify.app" target="_blank" rel="noopener noreferrer">Erik Karlsson</a></small></p>
+        <p><small>Made by <a href="https://frontend-erik.se" target="_blank" rel="noopener noreferrer">Erik Karlsson</a></small></p>
       </footer>
     </div>
   );
