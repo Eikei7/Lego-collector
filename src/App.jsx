@@ -11,17 +11,16 @@ function App() {
   const [hasSearched, setHasSearched] = useState(false);
   const [selectedTheme, setSelectedTheme] = useState(null);
   const [themeNames, setThemeNames] = useState({});
-  const [isListView, setIsListView] = useState(false); // Ny state för listvy
+  const [isListView, setIsListView] = useState(false);
 
   const API_KEY = import.meta.env.VITE_REBRICKABLE_API_KEY;
 
-  // --- INITIAL LOAD ---
   useEffect(() => {
     const savedCollections = localStorage.getItem('lego-collections');
     const savedNames = localStorage.getItem('lego-collection-names');
     const savedActiveTab = localStorage.getItem('lego-active-tab');
     const savedThemes = localStorage.getItem('lego-theme-names');
-    const savedView = localStorage.getItem('lego-view-mode'); // Hämta sparad vy
+    const savedView = localStorage.getItem('lego-view-mode');
     
     if (savedCollections) {
       try { setCollections(JSON.parse(savedCollections)); } catch (e) { setCollections([[]]); }
@@ -42,13 +41,12 @@ function App() {
     }
   }, []);
 
-  // --- PERSISTENCE & THEME FETCHING ---
   useEffect(() => {
     localStorage.setItem('lego-collections', JSON.stringify(collections));
     localStorage.setItem('lego-collection-names', JSON.stringify(collectionNames));
     localStorage.setItem('lego-active-tab', activeTab.toString());
     localStorage.setItem('lego-theme-names', JSON.stringify(themeNames));
-    localStorage.setItem('lego-view-mode', isListView ? 'list' : 'grid'); // Spara vy-val
+    localStorage.setItem('lego-view-mode', isListView ? 'list' : 'grid');
     
     const currentCollection = collections[activeTab] || [];
     const uniqueThemeIds = [...new Set(currentCollection.map(set => set.theme_id))];
@@ -69,7 +67,6 @@ function App() {
     }
   }, [collections, collectionNames, activeTab, themeNames, API_KEY, isListView]);
 
-  // --- SEARCH FUNCTIONS ---
   const handleSearch = async (e) => {
     e.preventDefault();
     if (!searchQuery) return;
@@ -95,7 +92,6 @@ function App() {
     setHasSearched(false);
   };
 
-  // --- COLLECTION FUNCTIONS ---
   const addToCollection = (set) => {
     const newCollections = [...collections];
     const currentColl = newCollections[activeTab] || [];
@@ -117,7 +113,6 @@ function App() {
     }
   };
 
-  // --- TAB FUNCTIONS ---
   const addNewTab = () => {
     setCollections([...collections, []]);
     setCollectionNames([...collectionNames, `Collection ${collections.length + 1}`]);
@@ -147,7 +142,6 @@ function App() {
     }
   };
 
-  // --- IMPORT/EXPORT FUNCTIONS ---
   const exportJSON = () => {
     const currentColl = collections[activeTab] || [];
     const dataStr = JSON.stringify(currentColl, null, 2);
@@ -195,7 +189,6 @@ function App() {
     reader.readAsText(file);
   };
 
-  // --- RENDER LOGIC ---
   const currentCollection = collections[activeTab] || [];
   const totalParts = currentCollection.reduce((acc, set) => acc + (set.num_parts || 0), 0);
   const themes = [...new Set(currentCollection.map(set => set.theme_id))].sort((a, b) => a - b);
@@ -214,7 +207,6 @@ function App() {
         <p>Manage multiple collections in your browser.</p>
       </header>
 
-      {/* TABS SECTION */}
       <div className="tabs-container">
         <div className="tabs-header">
           <div className="tabs-list">
@@ -238,7 +230,6 @@ function App() {
         </div>
       </div>
 
-      {/* SEARCH SECTION */}
       <section className="search-section">
         <h2>Search Rebrickable Database</h2>
         <form onSubmit={handleSearch} className="input-group">
@@ -261,7 +252,7 @@ function App() {
         </form>
 
         {isLoading ? (
-          <div className="spinner-container"><span className="loader"></span><p className="loading-text">Looking for bricks...</p></div>
+          <div className="spinner-container"><span className="loader"></span><p className="loading-text">Looking for sets...</p></div>
         ) : (
           searchResults.length > 0 && (
             <div className="lego-grid">
@@ -291,7 +282,6 @@ function App() {
 
       <hr />
 
-      {/* COLLECTION SECTION */}
       <section className="collection-section">
         <div className="collection-header">
           <div>
@@ -351,8 +341,8 @@ function App() {
       </section>
 
       <footer>
-        <p><small>Data provided by <a href="https://rebrickable.com/api/" target="_blank" rel="noopener noreferrer">Rebrickable API</a></small></p>
-        <p><small>Made by <a href="https://frontend-erik.se" target="_blank" rel="noopener noreferrer">Erik Karlsson</a></small></p>
+        <p className='credits'>Data provided by <a href="https://rebrickable.com/api/" target="_blank" rel="noopener noreferrer">Rebrickable API</a></p>
+        <p className='credits'>Made by <a href="https://frontend-erik.se" target="_blank" rel="noopener noreferrer">Erik Karlsson</a></p>
       </footer>
     </div>
   );

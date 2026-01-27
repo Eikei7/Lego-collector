@@ -1,4 +1,5 @@
 @import url(https://fonts.googleapis.com/css?family=Noto+Sans+Caucasian+Albanian:regular);
+@import url(https://fonts.googleapis.com/css?family=Geom:300,regular,500,600,700,800,900,300italic,italic,500italic,600italic,700italic,800italic,900italic);
 
 :root {
   --bg-color: #f4f7f6;
@@ -118,6 +119,16 @@ button:hover {
   max-width: 1200px;
   padding: 20px;
   width: 100%;
+}
+
+.credits {
+  font-family: 'Geom', system-ui, -apple-system, sans-serif; 
+  font-size: 18px;
+}
+
+.credits a {
+  color: var(--lego-blue);
+  text-decoration: none;
 }
 
 .data-actions {
@@ -352,7 +363,7 @@ input[type="text"]:focus {
   max-width: 200px;
   min-width: 120px;
   overflow: hidden;
-  padding: 10px 35px 10px 12px;
+  padding: 10px 55px 10px 12px;
   position: relative;
   text-overflow: ellipsis;
   transition: all 0.2s;
@@ -370,25 +381,42 @@ input[type="text"]:focus {
   background-color: #e6e6e6;
 }
 
-.tab-close {
-  align-items: center;
-  background: none;
-  color: #999;
-  display: flex;
-  font-size: 1.2rem;
-  height: 20px;
-  justify-content: center;
-  padding: 0;
+.tab-rename, .tab-close {
   position: absolute;
+  top: 0;
+  bottom: 0;
+  margin: auto;
+  padding: 0;
+  background: none;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 10;
+  width: 25px;
+  height: 100%;
+  transition: color 0.2s, background-color 0.2s;
+}
+
+.tab-rename {
+  right: 25px;
+  font-size: 0.9rem;
+  color: #666;
+}
+
+.tab-close {
   right: 5px;
-  top: 50%;
-  transform: translateY(-50%);
-  width: 20px;
-  z-index: 2;
+  font-size: 1.1rem;
+  color: #999;
+}
+
+.tab-rename:hover, .tab-close:hover {
+  background-color: rgba(0, 0, 0, 0.05); /* En liten cirkel vid hover */
+  border-radius: 4px;
 }
 
 .tab-close:hover {
-  background-color: rgba(220, 53, 69, 0.1);
   color: var(--lego-red);
 }
 
@@ -408,7 +436,7 @@ input[type="text"]:focus {
   width: 100%;
 }
 
-.tab-rename {
+/* .tab-rename {
   align-items: center;
   background: none;
   color: #666;
@@ -423,11 +451,11 @@ input[type="text"]:focus {
   transform: translateY(-50%);
   width: 20px;
   z-index: 2;
-}
+} */
 
-.tab-rename:hover {
+/* .tab-rename:hover {
   background-color: rgba(0,0,0,0.1);
-}
+} */
 
 .tabs-container {
   background: var(--card-bg);
