@@ -82,11 +82,13 @@ function App() {
   const [sortOrder, setSortOrder] = useState('asc');
   const [showStats, setShowStats] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
+  const [collectionPage, setCollectionPage] = useState(1);
   const [totalResults, setTotalResults] = useState(0);
   const [toast, setToast] = useState(null);
   const [confirmState, setConfirmState] = useState(null);
   const [debouncedCollectionSearch, setDebouncedCollectionSearch] = useState('');
   const pageSize = 12;
+  const collectionPageSize = 16;
 
   useEffect(() => {
     const savedCollections = localStorage.getItem('lego-collections');
@@ -359,6 +361,23 @@ function App() {
     return sortOrder === 'asc' ? comparison : -comparison;
   }), [filteredCollection, sortBy, sortOrder, getThemeName]);
 
+  const collectionTotalPages = Math.ceil(sortedCollection.length / collectionPageSize);
+  const displayedCollectionPage = Math.min(collectionPage, Math.max(collectionTotalPages, 1));
+  const paginatedCollection = sortedCollection.slice(
+    (displayedCollectionPage - 1) * collectionPageSize,
+    displayedCollectionPage * collectionPageSize
+  );
+
+  useEffect(() => {
+    setCollectionPage(1);
+  }, [activeTab, selectedTheme, debouncedCollectionSearch, sortBy, sortOrder]);
+
+  useEffect(() => {
+    if (collectionPage > Math.max(collectionTotalPages, 1)) {
+      setCollectionPage(Math.max(collectionTotalPages, 1));
+    }
+  }, [collectionPage, collectionTotalPages]);
+
   const filteredTotalParts = useMemo(
     () => filteredCollection.reduce((acc, set) => acc + (set.num_parts || 0), 0),
     [filteredCollection]
@@ -550,7 +569,7 @@ function App() {
           <p style={{ textAlign: 'center', color: '#666', marginTop: '40px' }}>{selectedTheme || collectionSearchQuery ? 'No sets found with current filters.' : 'This collection is empty.'}</p>
         ) : (
           <div className={isListView ? "lego-list-view" : "lego-grid"}>
-            {sortedCollection.map(set => (
+            {paginatedCollection.map(set => (
               <div key={set.set_num} className={isListView ? "lego-list-item" : "lego-card saved"}>
                 <img src={set.set_img_url} alt={set.name} />
                 <div className="card-info">
@@ -560,6 +579,47 @@ function App() {
                 <button onClick={() => removeFromCollection(set.set_num)} className="btn-remove">Remove</button>
               </div>
             ))}
+          </div>
+        )}
+
+        {collectionTotalPages > 1 && (
+          <div className="pagination-container">
+            <button
+              disabled={displayedCollectionPage === 1}
+              onClick={() => setCollectionPage(displayedCollectionPage - 1)}
+              className="pagination-btn"
+              aria-label="Previous collection page"
+            >
+              &laquo;
+            </button>
+
+            {collectionTotalPages <= 4 ? (
+              <div className="pagination-numbers">
+                {[...Array(collectionTotalPages)].map((_, i) => (
+                  <button
+                    key={i + 1}
+                    onClick={() => setCollectionPage(i + 1)}
+                    className={`page-num-btn ${displayedCollectionPage === i + 1 ? 'active' : ''}`}
+                    aria-current={displayedCollectionPage === i + 1 ? 'page' : undefined}
+                  >
+                    {i + 1}
+                  </button>
+                ))}
+              </div>
+            ) : (
+              <span className="pagination-info">
+                Page <strong>{displayedCollectionPage}</strong> of {collectionTotalPages}
+              </span>
+            )}
+
+            <button
+              disabled={displayedCollectionPage === collectionTotalPages}
+              onClick={() => setCollectionPage(displayedCollectionPage + 1)}
+              className="pagination-btn"
+              aria-label="Next collection page"
+            >
+              &raquo;
+            </button>
           </div>
         )}
       </section>
